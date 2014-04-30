@@ -52,9 +52,9 @@ CREATE TABLE pets (
   type_id    INTEGER NOT NULL,
   owner_id   INTEGER NOT NULL
 );
-ALTER TABLE pets ADD CONSTRAINT fk_pets_owners FOREIGN KEY (owner_id) REFERENCES owners (id);
+/*ALTER TABLE pets ADD CONSTRAINT fk_pets_owners FOREIGN KEY (owner_id) REFERENCES owners (id);
 ALTER TABLE pets ADD CONSTRAINT fk_pets_types FOREIGN KEY (type_id) REFERENCES types (id);
-CREATE INDEX pets_name ON pets (name);
+CREATE INDEX pets_name ON pets (name);*/
 
 CREATE TABLE visits (
   id          INTEGER IDENTITY PRIMARY KEY,
@@ -72,7 +72,8 @@ CREATE TABLE hospitals (
   city       VARCHAR(80),
   telephone  VARCHAR(20)
 );
-CREATE INDEX hospitals_name ON doctors (name);
+
+CREATE INDEX hospitals_name ON hospitals (name);
 
 CREATE TABLE doctors (
   id         INTEGER IDENTITY PRIMARY KEY,
@@ -81,8 +82,8 @@ CREATE TABLE doctors (
   type_id    INTEGER NOT NULL,
   hospitals_id   INTEGER NOT NULL
 );
-ALTER TABLE doctors ADD CONSTRAINT fk_pets_owners FOREIGN KEY (hospitals_id) REFERENCES hospitals (id);
-ALTER TABLE doctors ADD CONSTRAINT fk_pets_types FOREIGN KEY (type_id) REFERENCES types (id);
-CREATE INDEX doctors_name ON pets (name);
+ALTER TABLE doctors ADD CONSTRAINT fk_doctors_hospitals FOREIGN KEY (hospitals_id) REFERENCES hospitals (id);
+ALTER TABLE doctors ADD CONSTRAINT fk_docotrs_types FOREIGN KEY (type_id) REFERENCES types (id);
+CREATE INDEX doctors_name ON doctors (name);
 
 
