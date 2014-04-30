@@ -1,18 +1,4 @@
-/*
- * Copyright 2002-2013 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+
 package org.springframework.samples.petclinic.repository.jdbc;
 
 import java.sql.ResultSet;
@@ -33,17 +19,7 @@ import org.springframework.samples.petclinic.model.Visit;
 import org.springframework.samples.petclinic.repository.VisitRepository;
 import org.springframework.stereotype.Repository;
 
-/**
- * A simple JDBC-based implementation of the {@link VisitRepository} interface.
- *
- * @author Ken Krebs
- * @author Juergen Hoeller
- * @author Rob Harrop
- * @author Sam Brannen
- * @author Thomas Risberg
- * @author Mark Fisher
- * @author Michael Isvy
- */
+
 @Repository
 public class JdbcVisitRepositoryImpl implements VisitRepository {
 
@@ -72,8 +48,8 @@ public class JdbcVisitRepositoryImpl implements VisitRepository {
         }
     }
 
-    public void deletePet(int id) throws DataAccessException {
-        this.jdbcTemplate.update("DELETE FROM pets WHERE id=?", id);
+    public void deleteDoctor(int id) throws DataAccessException {
+        this.jdbcTemplate.update("DELETE FROM doctors WHERE id=?", id);
     }
 
 
@@ -85,13 +61,13 @@ public class JdbcVisitRepositoryImpl implements VisitRepository {
                 .addValue("id", visit.getId())
                 .addValue("visit_date", visit.getDate().toDate())
                 .addValue("description", visit.getDescription())
-                .addValue("pet_id", visit.getPet().getId());
+                .addValue("doctor_id", visit.getDoctor().getId());
     }
 
     @Override
-    public List<Visit> findByPetId(Integer petId) {
+    public List<Visit> findByDoctorId(Integer doctorId) {
         final List<Visit> visits = this.jdbcTemplate.query(
-                "SELECT id, visit_date, description FROM visits WHERE pet_id=?",
+                "SELECT id, visit_date, description FROM visits WHERE doctor_id=?",
                 new ParameterizedRowMapper<Visit>() {
                     @Override
                     public Visit mapRow(ResultSet rs, int row) throws SQLException {
@@ -103,7 +79,7 @@ public class JdbcVisitRepositoryImpl implements VisitRepository {
                         return visit;
                     }
                 },
-                petId);
+                DoctorId);
         return visits;
     }
 
