@@ -20,13 +20,13 @@ import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.dao.DataAccessException;
-import org.springframework.samples.petclinic.model.Owner;
-import org.springframework.samples.petclinic.model.Pet;
-import org.springframework.samples.petclinic.model.PetType;
+import org.springframework.samples.petclinic.model.Hospital;
+import org.springframework.samples.petclinic.model.Doctor;
+import org.springframework.samples.petclinic.model.DoctorType;
 import org.springframework.samples.petclinic.model.Vet;
 import org.springframework.samples.petclinic.model.Visit;
-import org.springframework.samples.petclinic.repository.OwnerRepository;
-import org.springframework.samples.petclinic.repository.PetRepository;
+import org.springframework.samples.petclinic.repository.HospitalRepository;
+import org.springframework.samples.petclinic.repository.DoctorRepository;
 import org.springframework.samples.petclinic.repository.VetRepository;
 import org.springframework.samples.petclinic.repository.VisitRepository;
 import org.springframework.stereotype.Service;
@@ -38,6 +38,7 @@ import org.springframework.transaction.annotation.Transactional;
  *
  * @author Michael Isvy
  */
+/*
 @Service
 public class ClinicServiceImpl implements ClinicService {
 
@@ -96,6 +97,76 @@ public class ClinicServiceImpl implements ClinicService {
     @Transactional
     public void savePet(Pet pet) throws DataAccessException {
         petRepository.save(pet);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    @Cacheable(value = "vets")
+    public Collection<Vet> findVets() throws DataAccessException {
+        return vetRepository.findAll();
+    }
+
+
+}*/
+
+@Service
+public class ClinicServiceImpl implements ClinicService {
+
+    private DoctorRepository doctorRepository;
+    private VetRepository vetRepository;
+    private HospitalRepository hospitalRepository;
+    private VisitRepository visitRepository;
+
+    @Autowired
+    public ClinicServiceImpl(DoctorRepository doctorRepository, VetRepository vetRepository, HospitalRepository hospitalRepository, VisitRepository visitRepository) {
+        this.doctorRepository = doctorRepository;
+        this.vetRepository = vetRepository;
+        this.hospitalRepository = hospitalRepository;
+        this.visitRepository = visitRepository;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Collection<DoctorType> findDoctorTypes() throws DataAccessException {
+        return doctorRepository.findDoctorTypes();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Hospital findHospitalById(int id) throws DataAccessException {
+        return hospitalRepository.findById(id);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Collection<Hospital> findHospitalByName(String name) throws DataAccessException {
+        return hospitalRepository.findByName(name);
+    }
+
+    @Override
+    @Transactional
+    public void saveHospital(Hospital hospital) throws DataAccessException {
+        hospitalRepository.save(hospital);
+    }
+
+
+    @Override
+    @Transactional
+    public void saveVisit(Visit visit) throws DataAccessException {
+        visitRepository.save(visit);
+    }
+
+
+    @Override
+    @Transactional(readOnly = true)
+    public Doctor findDoctorById(int id) throws DataAccessException {
+        return doctorRepository.findById(id);
+    }
+
+    @Override
+    @Transactional
+    public void saveDoctor(Doctor doctor) throws DataAccessException {
+        doctorRepository.save(doctor);
     }
 
     @Override
