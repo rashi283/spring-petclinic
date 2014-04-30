@@ -80,5 +80,13 @@ public class Doctor extends NamedEntity
         getVisitsInternal().add(visit);
         visit.setDoctor(this);
     }
+    
+    public void setBirthDate(DateTime birthDate) {
+        this.birthDate = birthDate;
+    }
+
+    public DateTime getBirthDate() {
+        return this.birthDate;
+    }
 
 }
