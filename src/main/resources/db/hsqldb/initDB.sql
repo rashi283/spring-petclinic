@@ -5,6 +5,8 @@ DROP TABLE visits IF EXISTS;
 DROP TABLE pets IF EXISTS;
 DROP TABLE types IF EXISTS;
 DROP TABLE owners IF EXISTS;
+DROP TABLE doctors IF EXISTS;
+DROP TABLE hospital IF EXISTS;
 
 
 CREATE TABLE vets (
@@ -65,21 +67,19 @@ CREATE INDEX visits_pet_id ON visits (pet_id);
 
 CREATE TABLE hospitals (
   id         INTEGER IDENTITY PRIMARY KEY,
-  hospital_name VARCHAR(30),
+  name 		VARCHAR(30),
   address    VARCHAR(255),
   city       VARCHAR(80),
-  zip		 VARCHAR(30),
   telephone  VARCHAR(20)
 );
-CREATE INDEX hospitals_hospital_name ON doctors (hospital_name);
+CREATE INDEX hospitals_name ON doctors (name);
 
 CREATE TABLE doctors (
   id         INTEGER IDENTITY PRIMARY KEY,
   name       VARCHAR(30),
   birth_date DATE,
-  hospital_name VARCHAR(30),
   type_id    INTEGER NOT NULL,
-  owner_id   INTEGER NOT NULL
+  hospitals_id   INTEGER NOT NULL
 );
 ALTER TABLE doctors ADD CONSTRAINT fk_pets_owners FOREIGN KEY (hospitals_id) REFERENCES hospitals (id);
 ALTER TABLE doctors ADD CONSTRAINT fk_pets_types FOREIGN KEY (type_id) REFERENCES types (id);
