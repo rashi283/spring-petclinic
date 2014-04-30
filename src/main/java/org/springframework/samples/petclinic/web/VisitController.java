@@ -20,6 +20,7 @@ import java.util.Map;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.model.Doctor;
 import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.model.Visit;
 import org.springframework.samples.petclinic.service.ClinicService;
@@ -35,10 +36,6 @@ import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
- * @author Juergen Hoeller
- * @author Ken Krebs
- * @author Arjen Poutsma
- * @author Michael Isvy
  */
 @Controller
 @SessionAttributes("visit")
@@ -57,11 +54,20 @@ public class VisitController {
         dataBinder.setDisallowedFields("id");
     }
 
-    @RequestMapping(value = "/owners/*/pets/{petId}/visits/new", method = RequestMethod.GET)
-    public String initNewVisitForm(@PathVariable("petId") int petId, Map<String, Object> model) {
-        Pet pet = this.clinicService.findPetById(petId);
+//    @RequestMapping(value = "/owners/*/pets/{petId}/visits/new", method = RequestMethod.GET)
+//    public String initNewVisitForm(@PathVariable("petId") int petId, Map<String, Object> model) {
+//        Pet pet = this.clinicService.findPetById(petId);
+//        Visit visit = new Visit();
+//        pet.addVisit(visit);
+//        model.put("visit", visit);
+//        return "pets/createOrUpdateVisitForm";
+//    }
+    
+    @RequestMapping(value = "/hospitals/*/doctors/{doctorId}/visits/new", method = RequestMethod.GET)
+    public String initNewVisitForm(@PathVariable("doctorId") int doctorId, Map<String, Object> model) {
+        Doctor doctor = this.clinicService.findDoctorById(doctorId); 
         Visit visit = new Visit();
-        pet.addVisit(visit);
+        doctor.addVisit(visit);
         model.put("visit", visit);
         return "pets/createOrUpdateVisitForm";
     }
@@ -77,10 +83,16 @@ public class VisitController {
         }
     }
 
-    @RequestMapping(value = "/owners/*/pets/{petId}/visits", method = RequestMethod.GET)
-    public ModelAndView showVisits(@PathVariable int petId) {
+//    @RequestMapping(value = "/owners/*/pets/{petId}/visits", method = RequestMethod.GET)
+//    public ModelAndView showVisits(@PathVariable int petId) {
+//        ModelAndView mav = new ModelAndView("visitList");
+//        mav.addObject("visits", this.clinicService.findPetById(petId).getVisits());
+//        return mav;
+//    }
+    @RequestMapping(value = "/owners/*/doctors/{doctorId}/visits", method = RequestMethod.GET)
+    public ModelAndView showVisits(@PathVariable int doctorId) {
         ModelAndView mav = new ModelAndView("visitList");
-        mav.addObject("visits", this.clinicService.findPetById(petId).getVisits());
+        mav.addObject("visits", this.clinicService.findDoctorById(doctorId).getVisits());
         return mav;
     }
 
