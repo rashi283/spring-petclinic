@@ -15,6 +15,23 @@ INSERT IGNORE INTO vet_specialties VALUES (3, 3);
 INSERT IGNORE INTO vet_specialties VALUES (4, 2);
 INSERT IGNORE INTO vet_specialties VALUES (5, 1);
 
+INSERT IGNORE INTO types VALUES (1, 'psychologist');
+INSERT IGNORE INTO types VALUES (2, 'general physician');
+INSERT IGNORE INTO types VALUES (3, 'cardiologist');
+INSERT IGNORE INTO types VALUES (4, 'pediatrician');
+INSERT IGNORE INTO types VALUES (5, 'physiotherapist');
+
+INSERT IGNORE INTO hospitals VALUES (1, 'El Camino', '110 W. Liberty St.', 'Madison','94086','6085551023');
+INSERT IGNORE INTO hospitals VALUES (2, 'abc', '123 def', 'sunnyvale','94086','6085551023');
+INSERT IGNORE INTO hospitals VALUES (3, 'def', '234 acv', 'santa clara','1234','6085551023');
+INSERT IGNORE INTO hospitals VALUES (4, 'efg', '345 abc', 'San Jose','95112','6085551023');
+
+INSERT IGNORE INTO doctors VALUES (1, 'Leo', '2010-09-07','El Camino', 1, 1);
+INSERT IGNORE INTO doctors VALUES (2, 'Basil', '2012-08-06','abc', 2, 2);
+INSERT IGNORE INTO doctors VALUES (3, 'Rosy', '2011-04-17','def', 3, 3);
+INSERT IGNORE INTO doctors VALUES (4, 'Jewel', '2010-03-07','El Camino', 4, 3);
+
+
 INSERT IGNORE INTO types VALUES (1, 'cat');
 INSERT IGNORE INTO types VALUES (2, 'dog');
 INSERT IGNORE INTO types VALUES (3, 'lizard');
