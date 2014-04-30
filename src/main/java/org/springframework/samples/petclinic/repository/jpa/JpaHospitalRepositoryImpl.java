@@ -12,7 +12,8 @@ import org.springframework.samples.petclinic.repository.HospitalRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class JpaHospitalRepositoryImpl implements HospitalRepository {
+public class JpaHospitalRepositoryImpl implements HospitalRepository 
+{
 
     @PersistenceContext
     private EntityManager em;
@@ -26,16 +27,18 @@ public class JpaHospitalRepositoryImpl implements HospitalRepository {
      * - Turning on lazy-loading and using {@link OpenSessionInViewFilter}
      */
     @SuppressWarnings("unchecked")
-    public Collection<Hospital> findByName(String lastName) {
+    public Collection<Hospital> findByName(String nameVal) 
+    {
         // using 'join fetch' because a single query should load both owners and pets
         // using 'left join fetch' because it might happen that an owner does not have pets yet
         Query query = this.em.createQuery("SELECT DISTINCT hospital FROM hospital Hospital left join fetch hospital.doctors WHERE hospital.name LIKE :name");
-        query.setParameter("name", name + "%");
+        query.setParameter("name", nameVal + "%");
         return query.getResultList();
     }
 
     @Override
-    public Hospital findById(int id) {
+    public Hospital findById(int id) 
+    {
         // using 'join fetch' because a single query should load both owners and pets
         // using 'left join fetch' because it might happen that an owner does not have pets yet
         Query query = this.em.createQuery("SELECT hospital FROM Hospital hospital left join fetch hospital.doctors WHERE hospital.id =:id");
@@ -45,14 +48,14 @@ public class JpaHospitalRepositoryImpl implements HospitalRepository {
 
 
     @Override
-    public void save(hospital) {
+    public void save(hospital) 
+    {
     	if (hospital.getId() == null) {
     		this.em.persist(hospital);     		
     	}
     	else {
     		this.em.merge(hospital);    
     	}
-
     }
 
 }
