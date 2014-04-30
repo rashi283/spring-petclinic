@@ -16,6 +16,7 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.orm.ObjectRetrievalFailureException;
 import org.springframework.samples.petclinic.model.Doctor;
 import org.springframework.samples.petclinic.model.DoctorType;
+import org.springframework.samples.petclinic.model.Hospital;
 import org.springframework.samples.petclinic.model.Owner;
 import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.model.PetType;
@@ -29,8 +30,10 @@ public class JdbcDoctorRepositoryImpl implements DoctorRepository{
 	
 	private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-    private SimpleJdbcInsert insertPet;
-
+    //private SimpleJdbcInsert insertPet;
+    
+	private SimpleJdbcInsert insertDoctor;
+	
     private HospitalRepository hospitalRepository;
 
     private VisitRepository visitRepository;
@@ -40,7 +43,7 @@ public class JdbcDoctorRepositoryImpl implements DoctorRepository{
     public JdbcDoctorRepositoryImpl(DataSource dataSource, HospitalRepository ownerRepository, VisitRepository visitRepository) {
         this.namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 
-        this.insertPet = new SimpleJdbcInsert(dataSource)
+        this.insertDoctor = new SimpleJdbcInsert(dataSource)
                 .withTableName("pets")
                 .usingGeneratedKeyColumns("id");
 
@@ -66,12 +69,12 @@ public class JdbcDoctorRepositoryImpl implements DoctorRepository{
             doctor = this.namedParameterJdbcTemplate.queryForObject(
                     "SELECT id, name, birth_date, type_id, owner_id FROM pets WHERE id=:id",
                     params,
-                    new JdbcPetRowMapper());
+                    new JdbcDoctorRowMapper());
         } catch (EmptyResultDataAccessException ex) {
             throw new ObjectRetrievalFailureException(Doctor.class, new Integer(id));
         }
-        Owner owner = this.hospitalRepository.findById(doctor.getHospitalId());
-        owner.addDoctor(doctor);
+        Hospital hospital = this.hospitalRepository.findById(doctor.getHospitalId());
+        hospital.addDoctor(doctor);
         doctor.setType(EntityUtils.getById(findDoctorTypes(), DoctorType.class, doctor.getTypeId()));
 
         /*List<Visit> visits = this.visitRepository.findByPetId(pet.getId());
@@ -89,7 +92,7 @@ public class JdbcDoctorRepositoryImpl implements DoctorRepository{
         } else {
             this.namedParameterJdbcTemplate.update(
                     "UPDATE pets SET name=:name, birth_date=:birth_date, type_id=:type_id, " +
-                            "owner_id=:owner_id WHERE id=:id",
+                            "hospital_id=:hospital_id WHERE id=:id",
                     createDoctorParameterSource(doctor));
         }
     }
@@ -97,13 +100,13 @@ public class JdbcDoctorRepositoryImpl implements DoctorRepository{
     /**
      * Creates a {@link MapSqlParameterSource} based on data values from the supplied {@link Pet} instance.
      */
-    private MapSqlParameterSource createPetParameterSource(Pet pet) {
+    private MapSqlParameterSource createDoctorParameterSource(Doctor doctor) {
         return new MapSqlParameterSource()
-                .addValue("id", pet.getId())
-                .addValue("name", pet.getName())
-                .addValue("birth_date", pet.getBirthDate().toDate())
-                .addValue("type_id", pet.getType().getId())
-                .addValue("owner_id", pet.getOwner().getId());
+                .addValue("id", doctor.getId())
+                .addValue("name", doctor.getName())
+                .addValue("birth_date", doctor.getBirthDate().toDate())
+                .addValue("type_id", doctor.getType().getId())
+                .addValue("owner_id", doctor.getHospital().getId());
     }
 
 
