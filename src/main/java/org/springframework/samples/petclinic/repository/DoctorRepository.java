@@ -5,11 +5,11 @@ import java.util.List;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Doctor;
 import org.springframework.samples.petclinic.model.Pet;
-import org.springframework.samples.petclinic.model.PetType;
+import org.springframework.samples.petclinic.model.DoctorType;
 
 public interface DoctorRepository
 {
-	 List<Doctor> findDoctorTypes() throws DataAccessException;
+	 List<DoctorType> findDoctorTypes() throws DataAccessException;
 	 Doctor findById(int id) throws DataAccessException;
 	 void save(Doctor doctor) throws DataAccessException;
 
