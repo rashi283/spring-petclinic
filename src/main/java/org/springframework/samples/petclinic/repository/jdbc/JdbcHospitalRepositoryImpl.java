@@ -40,8 +40,9 @@ import org.springframework.samples.petclinic.util.EntityUtils;
 import org.springframework.stereotype.Repository;
 
 /**
- * A simple JDBC-based implementation of the {@link OwnerRepository} interface.
+ * A simple JDBC-based implementation of the {@link HospitalRepository} interface.
  */
+
 @Repository
 public class JdbcHospitalRepositoryImpl implements HospitalRepository {
 
