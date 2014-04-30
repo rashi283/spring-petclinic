@@ -35,10 +35,6 @@ import org.springframework.beans.support.PropertyComparator;
 /**
  * Simple JavaBean domain object representing a veterinarian.
  *
- * @author Ken Krebs
- * @author Juergen Hoeller
- * @author Sam Brannen
- * @author Arjen Poutsma
  */
 @Entity
 @Table(name = "vets")
