@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.model.Hospital;
 import org.springframework.samples.petclinic.model.Owner;
 import org.springframework.samples.petclinic.model.Doctor;
 import org.springframework.samples.petclinic.model.DoctorType;
