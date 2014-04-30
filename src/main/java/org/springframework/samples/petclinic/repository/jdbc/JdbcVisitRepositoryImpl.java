@@ -19,14 +19,10 @@ import org.springframework.samples.petclinic.model.Visit;
 import org.springframework.samples.petclinic.repository.VisitRepository;
 import org.springframework.stereotype.Repository;
 
-<<<<<<< HEAD
-
-=======
 /**
  * A simple JDBC-based implementation of the {@link VisitRepository} interface.
  *
  */
->>>>>>> 1bf5c8812950245cd18d952bf208904ee6788128
 @Repository
 public class JdbcVisitRepositoryImpl implements VisitRepository {
 
@@ -54,16 +50,7 @@ public class JdbcVisitRepositoryImpl implements VisitRepository {
             throw new UnsupportedOperationException("Visit update not supported");
         }
     }
-
-<<<<<<< HEAD
-    public void deleteDoctor(int id) throws DataAccessException {
-        this.jdbcTemplate.update("DELETE FROM doctors WHERE id=?", id);
-    }
-=======
-//    public void deletePet(int id) throws DataAccessException {
-//        this.jdbcTemplate.update("DELETE FROM pets WHERE id=?", id);
-//    }
->>>>>>> 1bf5c8812950245cd18d952bf208904ee6788128
+    
 
     public void deleteDoctor(int idVal) throws DataAccessException {
         this.jdbcTemplate.update("DELETE FROM doctors WHERE id=?", idVal);
@@ -77,10 +64,9 @@ public class JdbcVisitRepositoryImpl implements VisitRepository {
                 .addValue("id", visit.getId())
                 .addValue("visit_date", visit.getDate().toDate())
                 .addValue("description", visit.getDescription())
-<<<<<<< HEAD
-=======
+
                 //.addValue("pet_id", visit.getPet().getId());
->>>>>>> 1bf5c8812950245cd18d952bf208904ee6788128
+
                 .addValue("doctor_id", visit.getDoctor().getId());
     }
 
@@ -103,11 +89,11 @@ public class JdbcVisitRepositoryImpl implements VisitRepository {
 //        return visits;
 //    }
     @Override
-<<<<<<< HEAD
-    public List<Visit> findByDoctorId(Integer doctorId) {
-=======
+
+    
+
     public List<Visit> findByDoctorId(Integer doctorIdVal) {
->>>>>>> 1bf5c8812950245cd18d952bf208904ee6788128
+
         final List<Visit> visits = this.jdbcTemplate.query(
                 "SELECT id, visit_date, description FROM visits WHERE doctor_id=?",
                 new ParameterizedRowMapper<Visit>() {
@@ -121,11 +107,11 @@ public class JdbcVisitRepositoryImpl implements VisitRepository {
                         return visit;
                     }
                 },
-<<<<<<< HEAD
-                DoctorId);
-=======
+
+               
+
                 doctorIdVal);
->>>>>>> 1bf5c8812950245cd18d952bf208904ee6788128
+
         return visits;
     }
 
