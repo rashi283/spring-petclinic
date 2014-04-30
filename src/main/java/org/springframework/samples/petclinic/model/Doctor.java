@@ -55,7 +55,7 @@ public class Doctor extends NamedEntity
         this.hospital = hospital;
     }
 
-    public Owner getHospital() {
+    public Hospital getHospital() {
         return this.hospital;
     }
 
