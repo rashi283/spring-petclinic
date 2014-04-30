@@ -40,5 +40,8 @@ public class Person extends BaseEntity {
 	{
 		return this.name;
 	}
-	
+	public void setName(String name)
+	{
+		this.name=name;
+	}
 }
