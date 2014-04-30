@@ -36,13 +36,6 @@ import org.springframework.stereotype.Repository;
 /**
  * A simple JDBC-based implementation of the {@link VisitRepository} interface.
  *
- * @author Ken Krebs
- * @author Juergen Hoeller
- * @author Rob Harrop
- * @author Sam Brannen
- * @author Thomas Risberg
- * @author Mark Fisher
- * @author Michael Isvy
  */
 @Repository
 public class JdbcVisitRepositoryImpl implements VisitRepository {
@@ -72,10 +65,13 @@ public class JdbcVisitRepositoryImpl implements VisitRepository {
         }
     }
 
-    public void deletePet(int id) throws DataAccessException {
-        this.jdbcTemplate.update("DELETE FROM pets WHERE id=?", id);
-    }
+//    public void deletePet(int id) throws DataAccessException {
+//        this.jdbcTemplate.update("DELETE FROM pets WHERE id=?", id);
+//    }
 
+    public void deleteDoctor(int idVal) throws DataAccessException {
+        this.jdbcTemplate.update("DELETE FROM doctors WHERE id=?", idVal);
+    }
 
     /**
      * Creates a {@link MapSqlParameterSource} based on data values from the supplied {@link Visit} instance.
@@ -85,13 +81,32 @@ public class JdbcVisitRepositoryImpl implements VisitRepository {
                 .addValue("id", visit.getId())
                 .addValue("visit_date", visit.getDate().toDate())
                 .addValue("description", visit.getDescription())
-                .addValue("pet_id", visit.getPet().getId());
+                //.addValue("pet_id", visit.getPet().getId());
+                .addValue("doctor_id", visit.getDoctor().getId());
     }
 
+//    @Override
+//    public List<Visit> findByPetId(Integer petId) {
+//        final List<Visit> visits = this.jdbcTemplate.query(
+//                "SELECT id, visit_date, description FROM visits WHERE pet_id=?",
+//                new ParameterizedRowMapper<Visit>() {
+//                    @Override
+//                    public Visit mapRow(ResultSet rs, int row) throws SQLException {
+//                        Visit visit = new Visit();
+//                        visit.setId(rs.getInt("id"));
+//                        Date visitDate = rs.getDate("visit_date");
+//                        visit.setDate(new DateTime(visitDate));
+//                        visit.setDescription(rs.getString("description"));
+//                        return visit;
+//                    }
+//                },
+//                petId);
+//        return visits;
+//    }
     @Override
-    public List<Visit> findByPetId(Integer petId) {
+    public List<Visit> findByDoctorId(Integer doctorIdVal) {
         final List<Visit> visits = this.jdbcTemplate.query(
-                "SELECT id, visit_date, description FROM visits WHERE pet_id=?",
+                "SELECT id, visit_date, description FROM visits WHERE doctor_id=?",
                 new ParameterizedRowMapper<Visit>() {
                     @Override
                     public Visit mapRow(ResultSet rs, int row) throws SQLException {
@@ -103,7 +118,7 @@ public class JdbcVisitRepositoryImpl implements VisitRepository {
                         return visit;
                     }
                 },
-                petId);
+                doctorIdVal);
         return visits;
     }
 
