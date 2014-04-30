@@ -15,6 +15,7 @@ import org.springframework.jdbc.core.simple.ParameterizedBeanPropertyRowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.orm.ObjectRetrievalFailureException;
 import org.springframework.samples.petclinic.model.Doctor;
+import org.springframework.samples.petclinic.model.DoctorType;
 import org.springframework.samples.petclinic.model.Owner;
 import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.model.PetType;
@@ -48,12 +49,12 @@ public class JdbcDoctorRepositoryImpl implements DoctorRepository{
     }
 
     @Override
-    public List<Doctor> findDoctorTypes() throws DataAccessException {
+    public List<DoctorType> findDoctorTypes() throws DataAccessException {
         Map<String, Object> params = new HashMap<String, Object>();
         return this.namedParameterJdbcTemplate.query(
                 "SELECT id, name FROM types ORDER BY name",
                 params,
-                ParameterizedBeanPropertyRowMapper.newInstance(PetType.class));
+                ParameterizedBeanPropertyRowMapper.newInstance(DoctorType.class));
     }
 
     @Override
@@ -67,11 +68,11 @@ public class JdbcDoctorRepositoryImpl implements DoctorRepository{
                     params,
                     new JdbcPetRowMapper());
         } catch (EmptyResultDataAccessException ex) {
-            throw new ObjectRetrievalFailureException(Pet.class, new Integer(id));
+            throw new ObjectRetrievalFailureException(Doctor.class, new Integer(id));
         }
         Owner owner = this.hospitalRepository.findById(doctor.getHospitalId());
         owner.addDoctor(doctor);
-        doctor.setType(EntityUtils.getById(findDoctorTypes(), PetType.class, doctor.getTypeId()));
+        doctor.setType(EntityUtils.getById(findDoctorTypes(), DoctorType.class, doctor.getTypeId()));
 
         /*List<Visit> visits = this.visitRepository.findByPetId(pet.getId());
         for (Visit visit : visits) {
