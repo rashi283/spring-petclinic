@@ -18,11 +18,11 @@ import org.springframework.beans.support.MutableSortDefinition;
 import org.springframework.beans.support.PropertyComparator;
 import org.springframework.core.style.ToStringCreator;
 
+@Entity
+@Table(name = "hospitals")
 public class Hospital extends Person
 {
-	@Entity
-	@Table(name = "hospitals")
-	public class Owner extends Person {
+
 	    @Column(name = "address")
 	    @NotEmpty
 	    private String address;
@@ -122,13 +122,12 @@ public class Hospital extends Person
 
 	                .append("id", this.getId())
 	                .append("new", this.isNew())
-	                .append("lastName", this.getLastName())
-	                .append("firstName", this.getFirstName())
+	                .append("Name", this.getName())    
 	                .append("address", this.address)
 	                .append("city", this.city)
 	                .append("telephone", this.telephone)
 	                .toString();
 	    }
 	}
-}
+
 
