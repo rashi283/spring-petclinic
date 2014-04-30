@@ -33,8 +33,6 @@ import com.sun.syndication.feed.atom.Feed;
 /**
  * A view creating a Atom representation from a list of Visit objects.
  *
- * @author Alef Arendsen
- * @author Arjen Poutsma
  */
 public class VetsAtomView extends AbstractAtomFeedView {
 
@@ -57,7 +55,7 @@ public class VetsAtomView extends AbstractAtomFeedView {
             Entry entry = new Entry();
             // see http://diveintomark.org/archives/2004/05/28/howto-atom-id#other
             entry.setId(String.format("tag:springsource.org,%s", vet.getId()));
-            entry.setTitle(String.format("Vet: %s %s", vet.getFirstName(), vet.getLastName()));
+            entry.setTitle(String.format("Vet: %s %s",vet.getName()));
             //entry.setUpdated(visit.getDate().toDate());
 
             Content summary = new Content();
