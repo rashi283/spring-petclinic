@@ -42,8 +42,8 @@ public class DoctorController {
         dataBinder.setDisallowedFields("id");
     }
 
-    @RequestMapping(value = "/doctors/{doctorId}/doctors/new", method = RequestMethod.GET)
-    public String initCreationForm(@PathVariable("hospitalId") int ownerId, Map<String, Object> model) {
+    @RequestMapping(value = "/hospitals/{hospitalId}/doctors/new", method = RequestMethod.GET)
+    public String initCreationForm(@PathVariable("hospitalId") int hospitalId, Map<String, Object> model) {
         Hospital hospital = this.clinicService.findHospitalById(hospitalId);
         Doctor doctor = new Doctor();
         hospital.addDoctor(doctor);
@@ -51,7 +51,7 @@ public class DoctorController {
         return "doctors/createOrUpdateDoctorForm";
     }
 
-    @RequestMapping(value = "/owners/{doctorId}/doctors/new", method = RequestMethod.POST)
+    @RequestMapping(value = "/hospitals/{hospitalId}/doctors/new", method = RequestMethod.POST)
     public String processCreationForm(@ModelAttribute("doctor") Doctor doctor, BindingResult result, SessionStatus status) {
         new DoctorValidator().validate(doctor, result);
         if (result.hasErrors()) {
@@ -59,13 +59,13 @@ public class DoctorController {
         } else {
             this.clinicService.saveDoctor(doctor);
             status.setComplete();
-            return "redirect:/doctors/{doctorId}";
+            return "redirect:/hospitals/{hospitalId}";
         }
     }
 
-    @RequestMapping(value = "/owners/*/doctors/{doctorId}/edit", method = RequestMethod.GET)
+    @RequestMapping(value = "/hospitals/*/doctors/{doctorId}/edit", method = RequestMethod.GET)
     public String initUpdateForm(@PathVariable("doctorId") int doctorId, Map<String, Object> model) {
-        Doctors doctor = this.clinicService.findDoctorById(doctorId);
+        Doctor doctor = this.clinicService.findDoctorById(doctorId);
         model.put("doctor", doctor);
         return "doctors/createOrUpdateDoctorForm";
     }
