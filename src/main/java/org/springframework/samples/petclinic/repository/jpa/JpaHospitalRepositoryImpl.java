@@ -48,7 +48,7 @@ public class JpaHospitalRepositoryImpl implements HospitalRepository
 
 
     @Override
-    public void save(hospital) 
+    public void save(Hospital hospital) 
     {
     	if (hospital.getId() == null) {
     		this.em.persist(hospital);     		
