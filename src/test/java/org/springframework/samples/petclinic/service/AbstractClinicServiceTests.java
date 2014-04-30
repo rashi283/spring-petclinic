@@ -25,9 +25,9 @@ import org.joda.time.DateTime;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.samples.petclinic.model.Owner;
-import org.springframework.samples.petclinic.model.Pet;
-import org.springframework.samples.petclinic.model.PetType;
+import org.springframework.samples.petclinic.model.Hospital;
+import org.springframework.samples.petclinic.model.Doctor;
+import org.springframework.samples.petclinic.model.DoctorType;
 import org.springframework.samples.petclinic.model.Vet;
 import org.springframework.samples.petclinic.model.Visit;
 import org.springframework.samples.petclinic.util.EntityUtils;
@@ -53,6 +53,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @author Sam Brannen
  * @author Michael Isvy
  */
+/*
 public abstract class AbstractClinicServiceTests {
 
     @Autowired
@@ -187,6 +188,146 @@ public abstract class AbstractClinicServiceTests {
 	    this.clinicService.savePet(pet7);
 	    pet7 = this.clinicService.findPetById(7);
 	    assertEquals(found + 1, pet7.getVisits().size());
+	    assertNotNull("Visit Id should have been generated", visit.getId());
+	}
+
+
+}*/
+
+public abstract class AbstractClinicServiceTests {
+
+    @Autowired
+    protected ClinicService clinicService;
+
+    @Test
+    @Transactional
+    public void findOwners() {
+        Collection<Hospital> hospitals = this.clinicService.findHospitalByName("Davis");
+        assertEquals(2, hospitals.size());
+        hospitals = this.clinicService.findHospitalByName("Daviss");
+        assertEquals(0, hospitals.size());
+    }
+
+    @Test
+    public void findSingleHospital() {
+        Hospital hospital1 = this.clinicService.findHospitalById(1);
+        assertTrue(hospital1.getName().startsWith("Franklin"));
+        Hospital hospital10 = this.clinicService.findHospitalById(10);
+        assertEquals("Carlos", hospital10.getName());
+
+        assertEquals(hospital1.getDoctors().size(), 1);
+    }
+
+    @Test
+    @Transactional
+    public void insertOwner() {
+        Collection<Hospital> hospitals = this.clinicService.findHospitalByName("Schultz");
+        int found = hospitals.size();
+        Hospital hospital = new Hospital();
+        hospital.setName("Sam");
+        hospital.setName("Schultz");
+        hospital.setAddress("4, Evans Street");
+        hospital.setCity("Wollongong");
+        hospital.setTelephone("4444444444");
+        this.clinicService.saveHospital(hospital);
+        Assert.assertNotEquals("Hospital Id should have been generated", hospital.getId().longValue(), 0);
+        hospitals = this.clinicService.findHospitalByName("Schultz");
+        assertEquals("Verifying number of hospitals after inserting a new one.", found + 1, hospitals.size());
+    }
+
+    @Test
+    @Transactional
+    public void updateHospital() throws Exception {
+        Hospital o1 = this.clinicService.findHospitalById(1);
+        String old = o1.getName();
+        o1.setName(old + "X");
+        this.clinicService.saveHospital(o1);
+        o1 = this.clinicService.findHospitalById(1);
+        assertEquals(old + "X", o1.getName());
+    }
+
+	@Test
+	public void findDoctor() {
+	    Collection<DoctorType> types = this.clinicService.findDoctorTypes();
+	    Doctor doctor7 = this.clinicService.findDoctorById(7);
+	    assertTrue(doctor7.getName().startsWith("Samantha"));
+	    assertEquals(EntityUtils.getById(types, DoctorType.class, 1).getId(), doctor7.getType().getId());
+	    assertEquals("Jean", doctor7.getHospital().getName());
+	    Doctor doctor6 = this.clinicService.findDoctorById(6);
+	    assertEquals("George", doctor6.getName());
+	    assertEquals(EntityUtils.getById(types, DoctorType.class, 4).getId(), doctor6.getType().getId());
+	    assertEquals("Peter", doctor6.getHospital().getName());
+	}
+
+	@Test
+	public void getDoctorTypes() {
+	    Collection<DoctorType> doctorTypes = this.clinicService.findDoctorTypes();
+	
+	    DoctorType doctorType1 = EntityUtils.getById(doctorTypes, DoctorType.class, 1);
+	    assertEquals("cat", doctorType1.getName());
+	    DoctorType doctorType4 = EntityUtils.getById(doctorTypes, DoctorType.class, 4);
+	    assertEquals("snake", doctorType4.getName());
+	}
+
+	@Test
+	@Transactional
+	public void insertDoctor() {
+	    Hospital hospital6 = this.clinicService.findHospitalById(6);
+	    int found = hospital6.getDoctors().size();
+	    Doctor doctor = new Doctor();
+	    doctor.setName("bowser");
+	    Collection<DoctorType> types = this.clinicService.findDoctorTypes();
+	    doctor.setType(EntityUtils.getById(types, DoctorType.class, 2));
+	    doctor.setBirthDate(new DateTime());
+	    hospital6.addDoctor(doctor);
+	    assertEquals(found + 1, hospital6.getDoctors().size());
+	    // both storePet and storeOwner are necessary to cover all ORM tools
+	    this.clinicService.saveDoctor(doctor);
+	    this.clinicService.saveHospital(hospital6);
+	    hospital6 = this.clinicService.findHospitalById(6);
+	    assertEquals(found + 1, hospital6.getDoctors().size());
+	    assertNotNull("Doctor Id should have been generated", doctor.getId());
+	}
+
+	@Test
+	@Transactional
+	public void updateDoctor() throws Exception {
+	    Doctor doctor7 = this.clinicService.findDoctorById(7);
+	    String old = doctor7.getName();
+	    doctor7.setName(old + "X");
+	    this.clinicService.saveDoctor(doctor7);
+	    doctor7 = this.clinicService.findDoctorById(7);
+	    assertEquals(old + "X", doctor7.getName());
+	}
+
+	@Test
+	public void findVets() {
+	    Collection<Vet> vets = this.clinicService.findVets();
+	
+	    Vet v1 = EntityUtils.getById(vets, Vet.class, 2);
+	    assertEquals("Leary", v1.getName());
+	    assertEquals(1, v1.getNrOfSpecialties());
+	    assertEquals("radiology", (v1.getSpecialties().get(0)).getName());
+	    Vet v2 = EntityUtils.getById(vets, Vet.class, 3);
+	    assertEquals("Douglas", v2.getName());
+	    assertEquals(2, v2.getNrOfSpecialties());
+	    assertEquals("dentistry", (v2.getSpecialties().get(0)).getName());
+	    assertEquals("surgery", (v2.getSpecialties().get(1)).getName());
+	}
+
+	@Test
+	@Transactional
+	public void insertVisit() {
+	    Doctor doctor7 = this.clinicService.findDoctorById(7);
+	    int found = doctor7.getVisits().size();
+	    Visit visit = new Visit();
+	    doctor7.addVisit(visit);
+	    visit.setDescription("test");
+	    // both storeVisit and storePet are necessary to cover all ORM tools
+	    this.clinicService.saveVisit(visit);
+	    this.clinicService.saveDoctor(doctor7);
+	    doctor7 = this.clinicService.findDoctorById(7);
+	    assertEquals(found + 1, doctor7.getVisits().size());
 	    assertNotNull("Visit Id should have been generated", visit.getId());
 	}
 
