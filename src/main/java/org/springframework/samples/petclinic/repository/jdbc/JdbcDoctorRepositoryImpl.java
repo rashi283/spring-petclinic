@@ -17,12 +17,12 @@ import org.springframework.orm.ObjectRetrievalFailureException;
 import org.springframework.samples.petclinic.model.Doctor;
 import org.springframework.samples.petclinic.model.DoctorType;
 import org.springframework.samples.petclinic.model.Hospital;
-import org.springframework.samples.petclinic.model.Owner;
-import org.springframework.samples.petclinic.model.Pet;
+//import org.springframework.samples.petclinic.model.Owner;
+//import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.model.PetType;
 import org.springframework.samples.petclinic.repository.DoctorRepository;
 import org.springframework.samples.petclinic.repository.HospitalRepository;
-import org.springframework.samples.petclinic.repository.OwnerRepository;
+//import org.springframework.samples.petclinic.repository.OwnerRepository;
 import org.springframework.samples.petclinic.repository.VisitRepository;
 import org.springframework.samples.petclinic.util.EntityUtils;
 

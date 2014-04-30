@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Doctor;
-import org.springframework.samples.petclinic.model.Pet;
+//import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.model.DoctorType;
 
 public interface DoctorRepository

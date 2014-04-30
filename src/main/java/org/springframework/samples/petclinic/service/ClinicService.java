@@ -22,7 +22,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Hospital;
 import org.springframework.samples.petclinic.model.Doctor;
 import org.springframework.samples.petclinic.model.DoctorType;
-import org.springframework.samples.petclinic.model.Pet;
+//import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.model.PetType;
 import org.springframework.samples.petclinic.model.Vet;
 import org.springframework.samples.petclinic.model.Visit;
@@ -55,21 +55,21 @@ public interface ClinicService {
 }*/
 public interface ClinicService {
 	
-	Collection<PetType> findPetTypes() throws DataAccessException;
+	//Collection<PetType> findPetTypes() throws DataAccessException;
 
-    Owner findOwnerById(int id) throws DataAccessException;
+    //Owner findOwnerById(int id) throws DataAccessException;
 
-    Pet findPetById(int id) throws DataAccessException;
+    //Pet findPetById(int id) throws DataAccessException;
 
-    void savePet(Pet pet) throws DataAccessException;
+    //void savePet(Pet pet) throws DataAccessException;
 
     void saveVisit(Visit visit) throws DataAccessException;
 
     Collection<Vet> findVets() throws DataAccessException;
 
-    void saveOwner(Owner owner) throws DataAccessException;
+    //void saveOwner(Owner owner) throws DataAccessException;
 
-    Collection<Owner> findOwnerByLastName(String lastName) throws DataAccessException;
+    //Collection<Owner> findOwnerByLastName(String lastName) throws DataAccessException;
 
     Collection<DoctorType> findDoctorTypes() throws DataAccessException;
 
