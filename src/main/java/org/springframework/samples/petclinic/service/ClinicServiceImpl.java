@@ -15,6 +15,7 @@
  */
 package org.springframework.samples.petclinic.service;
 
+import java.security.acl.Owner;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,10 +24,14 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Hospital;
 import org.springframework.samples.petclinic.model.Doctor;
 import org.springframework.samples.petclinic.model.DoctorType;
+import org.springframework.samples.petclinic.model.Pet;
+import org.springframework.samples.petclinic.model.PetType;
 import org.springframework.samples.petclinic.model.Vet;
 import org.springframework.samples.petclinic.model.Visit;
 import org.springframework.samples.petclinic.repository.HospitalRepository;
 import org.springframework.samples.petclinic.repository.DoctorRepository;
+import org.springframework.samples.petclinic.repository.OwnerRepository;
+import org.springframework.samples.petclinic.repository.PetRepository;
 import org.springframework.samples.petclinic.repository.VetRepository;
 import org.springframework.samples.petclinic.repository.VisitRepository;
 import org.springframework.stereotype.Service;
@@ -111,11 +116,26 @@ public class ClinicServiceImpl implements ClinicService {
 
 @Service
 public class ClinicServiceImpl implements ClinicService {
-
-    private DoctorRepository doctorRepository;
+	
+	
+	private PetRepository petRepository;
     private VetRepository vetRepository;
-    private HospitalRepository hospitalRepository;
+    private OwnerRepository ownerRepository;
     private VisitRepository visitRepository;
+    
+    private DoctorRepository doctorRepository;
+    //private VetRepository vetRepository;
+    private HospitalRepository hospitalRepository;
+    //private VisitRepository visitRepository;
+
+
+    @Autowired
+    public ClinicServiceImpl(PetRepository petRepository, VetRepository vetRepository, OwnerRepository ownerRepository, VisitRepository visitRepository) {
+        this.petRepository = petRepository;
+        this.vetRepository = vetRepository;
+        this.ownerRepository = ownerRepository;
+        this.visitRepository = visitRepository;
+    }
 
     @Autowired
     public ClinicServiceImpl(DoctorRepository doctorRepository, VetRepository vetRepository, HospitalRepository hospitalRepository, VisitRepository visitRepository) {
@@ -123,6 +143,58 @@ public class ClinicServiceImpl implements ClinicService {
         this.vetRepository = vetRepository;
         this.hospitalRepository = hospitalRepository;
         this.visitRepository = visitRepository;
+    }
+    
+    @Override
+    @Transactional(readOnly = true)
+    public Collection<PetType> findPetTypes() throws DataAccessException {
+        return petRepository.findPetTypes();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Owner findOwnerById(int id) throws DataAccessException {
+        return (Owner) ownerRepository.findById(id);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Collection<Owner> findOwnerByLastName(String lastName) throws DataAccessException {
+        //return ownerRepository.findByLastName(lastName);
+    	return null;
+    }
+
+    @Override
+    @Transactional
+    public void saveOwner(Owner owner) throws DataAccessException {
+        ownerRepository.save((org.springframework.samples.petclinic.model.Owner) owner);
+    }
+
+
+    @Override
+    @Transactional
+    public void saveVisit(Visit visit) throws DataAccessException {
+        visitRepository.save(visit);
+    }
+
+
+    @Override
+    @Transactional(readOnly = true)
+    public Pet findPetById(int id) throws DataAccessException {
+        return petRepository.findById(id);
+    }
+
+    @Override
+    @Transactional
+    public void savePet(Pet pet) throws DataAccessException {
+        petRepository.save(pet);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    @Cacheable(value = "vets")
+    public Collection<Vet> findVets() throws DataAccessException {
+        return vetRepository.findAll();
     }
 
     @Override
@@ -150,11 +222,11 @@ public class ClinicServiceImpl implements ClinicService {
     }
 
 
-    @Override
-    @Transactional
-    public void saveVisit(Visit visit) throws DataAccessException {
-        visitRepository.save(visit);
-    }
+//    @Override
+//    @Transactional
+//    public void saveVisit(Visit visit) throws DataAccessException {
+//        visitRepository.save(visit);
+//    }
 
 
     @Override
@@ -169,12 +241,12 @@ public class ClinicServiceImpl implements ClinicService {
         doctorRepository.save(doctor);
     }
 
-    @Override
-    @Transactional(readOnly = true)
-    @Cacheable(value = "vets")
-    public Collection<Vet> findVets() throws DataAccessException {
-        return vetRepository.findAll();
-    }
+//    @Override
+//    @Transactional(readOnly = true)
+//    @Cacheable(value = "vets")
+//    public Collection<Vet> findVets() throws DataAccessException {
+//        return vetRepository.findAll();
+//    }
 
 
 }
