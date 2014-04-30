@@ -78,7 +78,7 @@ public class JdbcDoctorRepositoryImpl implements DoctorRepository{
         for (Visit visit : visits) {
             pet.addVisit(visit);
         }*/
-        return pet;
+        return doctor;
     }
 
     public void save(Doctor doctor) throws DataAccessException {
