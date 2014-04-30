@@ -1,18 +1,4 @@
-/*
- * Copyright 2002-2013 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+
 package org.springframework.samples.petclinic.repository.jdbc;
 
 import java.sql.ResultSet;
@@ -33,10 +19,14 @@ import org.springframework.samples.petclinic.model.Visit;
 import org.springframework.samples.petclinic.repository.VisitRepository;
 import org.springframework.stereotype.Repository;
 
+<<<<<<< HEAD
+
+=======
 /**
  * A simple JDBC-based implementation of the {@link VisitRepository} interface.
  *
  */
+>>>>>>> 1bf5c8812950245cd18d952bf208904ee6788128
 @Repository
 public class JdbcVisitRepositoryImpl implements VisitRepository {
 
@@ -65,9 +55,15 @@ public class JdbcVisitRepositoryImpl implements VisitRepository {
         }
     }
 
+<<<<<<< HEAD
+    public void deleteDoctor(int id) throws DataAccessException {
+        this.jdbcTemplate.update("DELETE FROM doctors WHERE id=?", id);
+    }
+=======
 //    public void deletePet(int id) throws DataAccessException {
 //        this.jdbcTemplate.update("DELETE FROM pets WHERE id=?", id);
 //    }
+>>>>>>> 1bf5c8812950245cd18d952bf208904ee6788128
 
     public void deleteDoctor(int idVal) throws DataAccessException {
         this.jdbcTemplate.update("DELETE FROM doctors WHERE id=?", idVal);
@@ -81,7 +77,10 @@ public class JdbcVisitRepositoryImpl implements VisitRepository {
                 .addValue("id", visit.getId())
                 .addValue("visit_date", visit.getDate().toDate())
                 .addValue("description", visit.getDescription())
+<<<<<<< HEAD
+=======
                 //.addValue("pet_id", visit.getPet().getId());
+>>>>>>> 1bf5c8812950245cd18d952bf208904ee6788128
                 .addValue("doctor_id", visit.getDoctor().getId());
     }
 
@@ -104,7 +103,11 @@ public class JdbcVisitRepositoryImpl implements VisitRepository {
 //        return visits;
 //    }
     @Override
+<<<<<<< HEAD
+    public List<Visit> findByDoctorId(Integer doctorId) {
+=======
     public List<Visit> findByDoctorId(Integer doctorIdVal) {
+>>>>>>> 1bf5c8812950245cd18d952bf208904ee6788128
         final List<Visit> visits = this.jdbcTemplate.query(
                 "SELECT id, visit_date, description FROM visits WHERE doctor_id=?",
                 new ParameterizedRowMapper<Visit>() {
@@ -118,7 +121,11 @@ public class JdbcVisitRepositoryImpl implements VisitRepository {
                         return visit;
                     }
                 },
+<<<<<<< HEAD
+                DoctorId);
+=======
                 doctorIdVal);
+>>>>>>> 1bf5c8812950245cd18d952bf208904ee6788128
         return visits;
     }
 
