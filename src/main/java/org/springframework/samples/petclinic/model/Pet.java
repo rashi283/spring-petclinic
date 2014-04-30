@@ -105,9 +105,9 @@ public class Pet extends NamedEntity {
         return Collections.unmodifiableList(sortedVisits);
     }
 
-//    public void addVisit(Visit visit) {
-//        getVisitsInternal().add(visit);
-//        visit.setPet(this);
-//    }
+    public void addVisit(Visit visit) {
+        getVisitsInternal().add(visit);
+        //visit.setPet(this);
+    }
 
 }

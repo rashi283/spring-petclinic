@@ -41,13 +41,6 @@ import org.springframework.stereotype.Repository;
 
 /**
  * A simple JDBC-based implementation of the {@link OwnerRepository} interface.
- *
- * @author Ken Krebs
- * @author Juergen Hoeller
- * @author Rob Harrop
- * @author Sam Brannen
- * @author Thomas Risberg
- * @author Mark Fisher
  */
 @Repository
 public class JdbcOwnerRepositoryImpl implements OwnerRepository {
@@ -123,10 +116,10 @@ public class JdbcOwnerRepositoryImpl implements OwnerRepository {
         for (JdbcPet pet : pets) {
             owner.addPet(pet);
             pet.setType(EntityUtils.getById(getPetTypes(), PetType.class, pet.getTypeId()));
-            List<Visit> visits = this.visitRepository.findByPetId(pet.getId());
-            for (Visit visit : visits) {
-                pet.addVisit(visit);
-            }
+//            List<Visit> visits = this.visitRepository.findByPetId(pet.getId());
+//            for (Visit visit : visits) {
+//                pet.addVisit(visit);
+//            }
         }
     }
 
