@@ -30,10 +30,13 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.simple.ParameterizedBeanPropertyRowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.orm.ObjectRetrievalFailureException;
+import org.springframework.samples.petclinic.model.DoctorType;
+import org.springframework.samples.petclinic.model.Hospital;
 import org.springframework.samples.petclinic.model.Owner;
 import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.model.PetType;
 import org.springframework.samples.petclinic.model.Visit;
+import org.springframework.samples.petclinic.repository.HospitalRepository;
 import org.springframework.samples.petclinic.repository.OwnerRepository;
 import org.springframework.samples.petclinic.repository.VisitRepository;
 import org.springframework.samples.petclinic.util.EntityUtils;
@@ -102,7 +105,7 @@ public class JdbcHospitalRepositoryImpl implements HospitalRepository {
                 params,
                 ParameterizedBeanPropertyRowMapper.newInstance(Hospital.class)
         );
-        loadOwnersPetsAndVisits(hospitals);
+        loadHospitalsDoctorsAndVisits(hospitals);
         return hospitals;
     }
     
@@ -127,7 +130,7 @@ public class JdbcHospitalRepositoryImpl implements HospitalRepository {
         } catch (EmptyResultDataAccessException ex) {
             throw new ObjectRetrievalFailureException(Hospital.class, idVal);
         }
-        loadPetsAndVisits(hospital);
+        loadDoctorsAndVisits(hospital);
         return hospital;
     }
 
