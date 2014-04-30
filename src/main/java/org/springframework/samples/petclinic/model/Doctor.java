@@ -26,10 +26,10 @@ import org.springframework.format.annotation.DateTimeFormat;
 public class Doctor extends NamedEntity 
 {
 
-   // @Column(name = "birth_date")
-    //@Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
-  //  @DateTimeFormat(pattern = "yyyy/MM/dd")
-    //private DateTime birthDate;
+    @Column(name = "birth_date")
+    @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
+    @DateTimeFormat(pattern = "yyyy/MM/dd")
+    private DateTime birthDate;
 
     @ManyToOne
     @JoinColumn(name = "type_id")
@@ -55,7 +55,7 @@ public class Doctor extends NamedEntity
         this.hospital = hospital;
     }
 
-    public Owner getHospital() {
+    public Hospital getHospital() {
         return this.hospital;
     }
 
