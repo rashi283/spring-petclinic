@@ -36,7 +36,7 @@ public class Doctor extends NamedEntity
     private DoctorType type;
 
     @ManyToOne
-    @JoinColumn(name = "owner_id")
+    @JoinColumn(name = "hospital_id")
     private Hospital hospital;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "doctor", fetch = FetchType.EAGER)
